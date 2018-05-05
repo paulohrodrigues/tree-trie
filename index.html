@@ -1,0 +1,69 @@
+<!-- ************** lib cs ************** -->
+<link rel="stylesheet" href="./js/lib/Treant.css" type="text/css"/>
+<!-- ************************************ -->
+
+<!-- ************** my code ************* -->
+<script src="./js/trie.js"></script>
+<script src="./js/node.js"></script>
+<script src="./js/canvas.js"></script>
+<!-- ************************************ -->
+
+<!-- ************** lib js ************** -->
+<script src="./js/lib/vendor/raphael.js"></script>
+<script src="./js/lib/Treant.js"></script>
+<!-- ************************************ -->
+
+<!-- ************ my code js ************ -->
+<input type="text" id="texto"> <button id="putButton">Add</button>
+<button id="deleteButton">Delete</button>
+<button id="searchButton">Search</button><br>
+<div id="tree-trie" style="width:500px; height: 500px;"> </div>
+<!-- ************************************ -->
+
+<script>
+    
+    /*---------------------- Config Init ---------------------------*/
+    var trie = new Trie();
+    var my_chart=null;
+    var config = {
+        chart: {
+            container: "#tree-trie"
+        }
+    };
+
+
+    // trie.put("paulo",true);
+    // trie.put("paula",true);
+    // trie.delete("paulo");
+    // trie.list();
+    // config["nodeStructure"] = trie.getResultJsonForChart();
+    // my_chart = new Treant(config);
+
+
+
+    /*---------------------- Config end ----------------------------*/
+    
+
+    /*---------------------- Event for Put --------------------------*/
+    document.getElementById("putButton").addEventListener("click",()=>{
+        trie.put(document.getElementById("texto").value,true);
+        trie.list();
+        config["nodeStructure"] = trie.getResultJsonForChart();
+        my_chart = new Treant(config);
+    });
+    /*---------------------- Event for Put end ------------------------*/
+
+    /*---------------------- Event for delete -------------------------*/
+    document.getElementById("deleteButton").addEventListener("click",()=>{
+        trie.delete(document.getElementById("texto").value);
+        trie.list();
+        config["nodeStructure"] = trie.getResultJsonForChart();
+        my_chart = new Treant(config);
+    });
+    /*-------------------- Event for delete end ------------------------*/
+
+    // document.getElementById("searchButton").addEventListener("click",()=>{
+        
+    // });
+
+</script>
