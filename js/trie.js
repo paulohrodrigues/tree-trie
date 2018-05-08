@@ -1,7 +1,5 @@
 class Trie{
-
     /*---------------------- Tree Trie Code Begin -------------------------*/ 
-
     constructor(){
         this.root=null;
         this.resultJson = 
@@ -17,8 +15,10 @@ class Trie{
             if(x===null) return null
             return x.val; 
         }else{
+
             if (x == null) return null;
             if (d == key.length) return x;
+            x.next[key[d]]["search"]=true;
             return this.get(key,x.next[key[d]], ++d);
         }
     }
@@ -44,19 +44,23 @@ class Trie{
         }else{
             if (x == null) return null;
             if (d == key.length){
-                if(this.seExisteMaisRamos(x.next)){
-                    x.val = null;
-                }else{
-                    x=null;
+                if(!this.seExisteMaisRamos(x.next)){
+                    return null;
+                }else if(this.seExisteMaisRamos(x.next)){
+                    x.val=null;
+                    return x;
                 }
             }else{
                 let c = key[d];
                 x.next[c] = this.delete(key,x.next[c], ++d);
-                if(x.next[c]==null && x.val==null){
-                    x=null;
+                if(x.next[c]==null && !(x.next[c]===undefined)){
+                    delete x.next[c];
                 }
+                if(!this.seExisteMaisRamos(x.next) &&  x.val!=true){
+                    return null;
+                }
+                return x;
             }
-            return x;
         } 
     }
 
@@ -72,7 +76,14 @@ class Trie{
         return this.resultJson;
     }
 
+    destaca(key,root){
+        let string = (root.search===true ? "'" :"") + key + (root.search===true ? "'" :"");
+        delete root["search"];
+        return string;  
+    }
+
     list(root=this.root,json,i=0){
+        
         if(i==0){
             this.resultJson = 
             {
@@ -87,10 +98,8 @@ class Trie{
         
         for(let key in obj){
             if(root.next[key]!=null){         
-                console.log(key);
-
                 json.children.push({
-                    text: { name: key },
+                    text: { name: this.destaca(key,root.next[key]) },
                     children:[]
                 });       
             }
@@ -98,36 +107,5 @@ class Trie{
             
         }
     }
-
     /*------------------------- additionals end ---------------------------*/
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// if(root.next[key].val!=null){
-//     console.log("'"+key+"' "+i);
-// }else{
-//     console.log(key+" "+i);
-// }
